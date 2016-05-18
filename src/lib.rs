@@ -8,10 +8,7 @@
 //!
 //! [1]: http://www.freedesktop.org/software/fontconfig/fontconfig-devel/t1.html
 
-#![feature(phase, unsafe_destructor)]
-
-extern crate "fontconfig-sys" as fontconfig;
-#[phase(plugin, link)] extern crate log;
+extern crate fontconfig_sys as fontconfig;
 
 use fontconfig::FcPattern;
 
@@ -65,7 +62,7 @@ impl Font {
 
     #[allow(dead_code)]
     fn print_debug(&self) {
-        debug!("Name: {}\nPath: {}", self.name, self.path.display());
+        println!("Name: {}\nPath: {}", self.name, self.path.display());
     }
 }
 
@@ -162,7 +159,6 @@ impl<'a> Pattern<'a> {
     }
 }
 
-#[unsafe_destructor]
 impl<'a> Drop for Pattern<'a> {
     fn drop(&mut self) {
         unsafe { fontconfig::FcPatternDestroy(self.pat); }
